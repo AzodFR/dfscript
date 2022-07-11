@@ -116,23 +116,25 @@ export default {
               });
             }
           }
-          for (let i = 0; i < res.length; i++) {
-            sym2.splice(sym.indexOf(res[i].token.split(" ")[1]), 1);
-            this.$store.commit("user/setToken", {
-              type: res[i].token.split(" ")[1],
-              value: res[i].token.split(" ")[0],
-            });
-          }
-          for (let i = 0; i < sym2.length; i++) {
-            if (this.$store.state.user.ressources[sym2[i]] == undefined) {
-              this.$store.commit("user/setToken", {
-                type: sym2[i],
-                value: "0.0000",
-              });
-            }
-          }
-        });
+        })
+          
 
+      this.rpc
+        .get_currency_balance("deserttokens", this.$store.state.user.name, "DFE")
+        .then(async (resu) => {
+          this.$store.commit("user/setToken", {
+            type: "DFE",
+            value: parseFloat(resu[0].split(" ")[0]) || 0,
+          });
+        });
+        this.rpc
+        .get_currency_balance("deserttokens", this.$store.state.user.name, "DFW")
+        .then(async (resu) => {
+          this.$store.commit("user/setToken", {
+            type: "DFW",
+            value: parseFloat(resu[0].split(" ")[0]) || 0,
+          });
+        });
       this.rpc
         .get_currency_balance("eosio.token", this.$store.state.user.name, "WAX")
         .then(async (resu) => {

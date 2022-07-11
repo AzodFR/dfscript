@@ -276,9 +276,9 @@ export default {
                     data: {
                       from: this.$store.state.user.name,
                       to: localStorage.getItem("to"),
-                      quantity: `${parseFloat(
+                      quantity: `${(parseFloat(
                         localStorage.getItem("a_e")
-                      ).toFixed(4)} DFE`,
+                      ) * 0.96).toFixed(4)} DFE`,
                       memo: "auto transfer",
                     },
                   },
@@ -315,8 +315,8 @@ export default {
                     data: {
                       from: this.$store.state.user.name,
                       to: localStorage.getItem("to"),
-                      quantity: `${parseFloat(
-                        localStorage.getItem("a_w")
+                      quantity: `${(parseFloat(
+                        localStorage.getItem("a_w")) *0.96
                       ).toFixed(4)} DFW`,
                       memo: "auto transfer",
                     },
