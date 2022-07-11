@@ -180,8 +180,7 @@ export default {
           ];
 
           const action = {
-            actions: [
-            ],
+            actions: [],
           };
           if (
             localStorage.getItem("e") &&
@@ -204,26 +203,7 @@ export default {
                 )} DFE`,
               },
             });
-            if (localStorage.getItem("to")) {
-              action.actions.push({
-                account: "deserttokens",
-                name: "transfer",
-                authorization: [
-                  {
-                    actor: this.$store.state.user.name,
-                    permission: "active",
-                  },
-                ],
-                data: {
-                  from: this.$store.state.user.name,
-                  to: localStorage.getItem("to"),
-                  quantity: `${parseFloat(localStorage.getItem("a_e")).toFixed(
-                    4
-                  )} DFE`,
-                  memo: "auto transfer",
-                },
-              });
-            }
+            
           }
           if (
             localStorage.getItem("w") &&
@@ -246,40 +226,20 @@ export default {
                 )} DFW`,
               },
             });
-             if (localStorage.getItem("to")) {
-              action.actions.push({
-                account: "deserttokens",
-                name: "transfer",
-                authorization: [
-                  {
-                    actor: this.$store.state.user.name,
-                    permission: "active",
-                  },
-                ],
-                data: {
-                  from: this.$store.state.user.name,
-                  to: localStorage.getItem("to"),
-                  quantity: `${parseFloat(localStorage.getItem("a_w")).toFixed(
-                    4
-                  )} DFW`,
-                  memo: "auto transfer",
-                },
-              });
-            }
           }
           action.actions.push({
-                account: "desertfarmgm",
-                name: "mine",
-                authorization: [
-                  {
-                    actor: this.$store.state.user.name,
-                    permission: "active",
-                  },
-                ],
-                data: {
+            account: "desertfarmgm",
+            name: "mine",
+            authorization: [
+              {
+                actor: this.$store.state.user.name,
+                permission: "active",
+              },
+            ],
+            data: {
               owner: this.$store.state.user.name,
             },
-              })
+          });
           const block = {
             blocksBehind: 3,
             expireSeconds: 30,
@@ -289,12 +249,91 @@ export default {
             action: action,
             block: block,
           };
-          console.log("action", transac.action)
+
+          console.log("action", transac.action);
           if (this.last == undefined) {
             this.readyToClaim = true;
             console.log("add to queue");
             this.$store.commit("user/addAction", transac);
             this.msg = "Claim in queue...";
+                        if (
+              localStorage.getItem("e") &&
+              localStorage.getItem("e") == "true" &&
+              localStorage.getItem("a_e") &&
+              localStorage.getItem("to")
+            ) {
+              const action2 = {
+                actions: [
+                  {
+                    account: "deserttokens",
+                    name: "transfer",
+                    authorization: [
+                      {
+                        actor: this.$store.state.user.name,
+                        permission: "active",
+                      },
+                    ],
+                    data: {
+                      from: this.$store.state.user.name,
+                      to: localStorage.getItem("to"),
+                      quantity: `${parseFloat(
+                        localStorage.getItem("a_e")
+                      ).toFixed(4)} DFE`,
+                      memo: "auto transfer",
+                    },
+                  },
+                ],
+              };
+              const block = {
+                blocksBehind: 3,
+                expireSeconds: 30,
+              };
+              const transac2 = {
+                id: this.item.asset_id + " transfer",
+                action: action2,
+                block: block,
+              };
+              this.$store.commit("user/addAction", transac2);
+            }
+            if (
+              localStorage.getItem("w") &&
+              localStorage.getItem("w") == "true" &&
+              localStorage.getItem("a_w") &&
+              localStorage.getItem("to")
+            ) {
+              const action2 = {
+                actions: [
+                  {
+                    account: "deserttokens",
+                    name: "transfer",
+                    authorization: [
+                      {
+                        actor: this.$store.state.user.name,
+                        permission: "active",
+                      },
+                    ],
+                    data: {
+                      from: this.$store.state.user.name,
+                      to: localStorage.getItem("to"),
+                      quantity: `${parseFloat(
+                        localStorage.getItem("a_w")
+                      ).toFixed(4)} DFW`,
+                      memo: "auto transfer",
+                    },
+                  },
+                ],
+              };
+              const block = {
+                blocksBehind: 3,
+                expireSeconds: 30,
+              };
+              const transac2 = {
+                id: this.item.asset_id + " transfer",
+                action: action2,
+                block: block,
+              };
+              this.$store.commit("user/addAction", transac2);
+            }
           }
           //alert("claiming !");
         } catch (e) {
