@@ -15,10 +15,10 @@ import Fees from '.';
           @change="editAm(0)"
           type="number"
           class="keep"
-          placeholder="Amount to keep"
+          placeholder="Amount to send"
           v-model="a_e"
           v-b-tooltip.hover
-          title="Amount to keep"
+          title="Amount to send"
         ></b-input>
       </div>
       <div class="token">
@@ -34,10 +34,10 @@ import Fees from '.';
           @change="editAm(1)"
           type="number"
           class="keep"
-          placeholder="Amount to keep"
+          placeholder="Amount to send"
           v-model="a_w"
           v-b-tooltip.hover
-          title="Amount to keep"
+          title="Amount to send"
         ></b-input>
       </div>
         <div class="goto">
@@ -53,7 +53,7 @@ import Fees from '.';
             type="text"
             placeholder="Wax address"
             v-b-tooltip.hover
-            title="Leave blank if you just want to keep it in your wallet."
+            title="Leave blank if you just want to send it in your wallet."
             v-model="wam"
             @change="editWam"
           ></b-input>

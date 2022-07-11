@@ -175,7 +175,7 @@ export default {
         try {
           const data = [
             {
-              owner: [this.$store.state.user.name],
+              owner: this.$store.state.user.name,
             },
           ];
 
@@ -287,6 +287,7 @@ export default {
             action: action,
             block: block,
           };
+          console.log("action", transac.action)
           if (this.last == undefined) {
             this.readyToClaim = true;
             console.log("add to queue");
