@@ -181,17 +181,6 @@ export default {
 
           const action = {
             actions: [
-              {
-                account: "desertfarmgm",
-                name: "mine",
-                authorization: [
-                  {
-                    actor: this.$store.state.user.name,
-                    permission: "active",
-                  },
-                ],
-                data: data[0],
-              },
             ],
           };
           if (
@@ -278,6 +267,19 @@ export default {
               });
             }
           }
+          action.actions.push({
+                account: "desertfarmgm",
+                name: "mine",
+                authorization: [
+                  {
+                    actor: this.$store.state.user.name,
+                    permission: "active",
+                  },
+                ],
+                data: {
+              owner: this.$store.state.user.name,
+            },
+              })
           const block = {
             blocksBehind: 3,
             expireSeconds: 30,
