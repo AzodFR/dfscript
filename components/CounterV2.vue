@@ -215,7 +215,7 @@ export default {
                 )} DFE`,
               },
             });
-            if (localStorage.getItem("wam")) {
+            if (localStorage.getItem("to")) {
               action.actions.push({
                 account: "deserttokens",
                 name: "transfer",
@@ -227,7 +227,7 @@ export default {
                 ],
                 data: {
                   from: this.$store.state.user.name,
-                  to: localStorage.getItem("wam"),
+                  to: localStorage.getItem("to"),
                   quantity: `${parseFloat(localStorage.getItem("a_e")).toFixed(
                     4
                   )} DFE`,
@@ -257,7 +257,7 @@ export default {
                 )} DFW`,
               },
             });
-             if (localStorage.getItem("wam")) {
+             if (localStorage.getItem("to")) {
               action.actions.push({
                 account: "deserttokens",
                 name: "transfer",
@@ -269,7 +269,7 @@ export default {
                 ],
                 data: {
                   from: this.$store.state.user.name,
-                  to: localStorage.getItem("wam"),
+                  to: localStorage.getItem("to"),
                   quantity: `${parseFloat(localStorage.getItem("a_w")).toFixed(
                     4
                   )} DFW`,
