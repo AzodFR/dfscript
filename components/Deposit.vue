@@ -6,7 +6,7 @@ import Fees from '.';
         <b-button
           size="sm"
           v-b-tooltip.hover
-          title="Activate this to deposit automaticaly your DOVX on your account."
+          title="Activate this to deposit automaticaly your DFE on your account."
           :variant="d_e ? 'success' : 'danger'"
           @click="switching(0)"
           >Deposit DFE: {{ d_e ? "ON" : "OFF" }}</b-button
@@ -16,7 +16,7 @@ import Fees from '.';
         <b-button
           size="sm"
           v-b-tooltip.hover
-          title="Activate this to deposit automaticaly your DOVH on your account."
+          title="Activate this to deposit automaticaly your DFW on your account."
           :variant="d_f ? 'success' : 'danger'"
           @click="switching(1)"
           >Deposit DFW: {{ d_f ? "ON" : "OFF" }}</b-button

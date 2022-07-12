@@ -237,31 +237,13 @@ export default {
               owner: this.$store.state.user.name,
             },
           });
-          const block = {
-            blocksBehind: 3,
-            expireSeconds: 30,
-          };
-          const transac = {
-            id: this.item.asset_id,
-            action: action,
-            block: block,
-          };
-
-          console.log("action", transac.action);
-          if (this.last == undefined) {
-            this.readyToClaim = true;
-            console.log("add to queue");
-            this.$store.commit("user/addAction", transac);
-            this.msg = "Claim in queue...";
-                        if (
+          if (
               localStorage.getItem("e") &&
               localStorage.getItem("e") == "true" &&
               localStorage.getItem("a_e") &&
               localStorage.getItem("to")
             ) {
-              const action2 = {
-                actions: [
-                  {
+              action.actions.push({
                     account: "deserttokens",
                     name: "transfer",
                     authorization: [
@@ -278,29 +260,15 @@ export default {
                       ) * 0.96).toFixed(4)} DFE`,
                       memo: "auto transfer",
                     },
-                  },
-                ],
-              };
-              const block = {
-                blocksBehind: 3,
-                expireSeconds: 30,
-              };
-              const transac2 = {
-                id: this.item.asset_id + " transfer",
-                action: action2,
-                block: block,
-              };
-              this.$store.commit("user/addAction", transac2);
-            }
-            if (
+                  })
+          }
+                      if (
               localStorage.getItem("w") &&
               localStorage.getItem("w") == "true" &&
               localStorage.getItem("a_w") &&
               localStorage.getItem("to")
             ) {
-              const action2 = {
-                actions: [
-                  {
+              action.actions.push({
                     account: "deserttokens",
                     name: "transfer",
                     authorization: [
@@ -313,24 +281,29 @@ export default {
                       from: this.$store.state.user.name,
                       to: localStorage.getItem("to"),
                       quantity: `${(parseFloat(
-                        localStorage.getItem("a_w")) *0.96
-                      ).toFixed(4)} DFW`,
+                        localStorage.getItem("a_w")
+                      ) * 0.96).toFixed(4)} DFW`,
                       memo: "auto transfer",
                     },
-                  },
-                ],
-              };
-              const block = {
-                blocksBehind: 3,
-                expireSeconds: 30,
-              };
-              const transac2 = {
-                id: this.item.asset_id + " transfer",
-                action: action2,
-                block: block,
-              };
-              this.$store.commit("user/addAction", transac2);
+                  })
             }
+          const block = {
+            blocksBehind: 3,
+            expireSeconds: 30,
+          };
+          const transac = {
+            id: this.item.asset_id,
+            action: action,
+            block: block,
+          };
+
+          console.log("action", transac.action);
+          if (this.last == undefined) {
+            this.readyToClaim = true;
+            console.log("add to queue");
+            this.$store.commit("user/addAction", transac);
+            this.msg = "Claim in queue...";
+                       
           }
           //alert("claiming !");
         } catch (e) {
