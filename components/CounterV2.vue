@@ -99,69 +99,6 @@ export default {
       this.msg = "Ready to claim";
       this.readyToClaim = false;
       this.queued = false;
-      const action = { actions: []}
-      if (
-              localStorage.getItem("e") &&
-              localStorage.getItem("e") == "true" &&
-              localStorage.getItem("a_e") &&
-              localStorage.getItem("to")
-            ) {
-              action.actions.push({
-                    account: "deserttokens",
-                    name: "transfer",
-                    authorization: [
-                      {
-                        actor: this.$store.state.user.name,
-                        permission: "active",
-                      },
-                    ],
-                    data: {
-                      from: this.$store.state.user.name,
-                      to: localStorage.getItem("to"),
-                      quantity: `${(parseFloat(
-                        localStorage.getItem("a_e")
-                      ) * 0.96).toFixed(4)} DFE`,
-                      memo: "auto transfer",
-                    },
-                  })
-          }
-                      if (
-              localStorage.getItem("w") &&
-              localStorage.getItem("w") == "true" &&
-              localStorage.getItem("a_w") &&
-              localStorage.getItem("to")
-            ) {
-              action.actions.push({
-                    account: "deserttokens",
-                    name: "transfer",
-                    authorization: [
-                      {
-                        actor: this.$store.state.user.name,
-                        permission: "active",
-                      },
-                    ],
-                    data: {
-                      from: this.$store.state.user.name,
-                      to: localStorage.getItem("to"),
-                      quantity: `${(parseFloat(
-                        localStorage.getItem("a_w")
-                      ) * 0.96).toFixed(4)} DFW`,
-                      memo: "auto transfer",
-                    },
-                  })
-            }
-          const block = {
-            blocksBehind: 3,
-            expireSeconds: 30,
-          };
-          const transac = {
-            id: "transfer " + localStorage.getItem("to"),
-            action: action,
-            block: block,
-          };
-
-          console.log("action", transac.action);
-          this.$store.commit("user/addAction", transac);
       setTimeout(() => {
         this.last = undefined;
       }, 10000);
@@ -196,7 +133,6 @@ export default {
       const timer = setInterval(() => {
         const now = new Date();
         const stake = this.timestamp;
-
         const end = new Date(stake);
         const distance = end.getTime() - utcNow();
         if (distance <= 0) {
@@ -213,14 +149,12 @@ export default {
         } else {
           this.readyToClaim = false;
         }
-
         const hours = Math.floor(distance / this._hours);
         const minutes = Math.floor((distance % this._hours) / this._minutes);
         const seconds = Math.floor((distance % this._minutes) / this._seconds);
         this.displayHours = hours < 10 ? "0" + hours : hours;
         this.displayMinutes = minutes < 10 ? "0" + minutes : minutes;
         this.displaySeconds = seconds < 10 ? "0" + seconds : seconds;
-
         this.loaded = true;
       }, 1000);
     },
@@ -238,7 +172,6 @@ export default {
               owner: this.$store.state.user.name,
             },
           ];
-
           const action = {
             actions: [],
           };
@@ -300,7 +233,6 @@ export default {
               owner: this.$store.state.user.name,
             },
           });
-          
           const block = {
             blocksBehind: 3,
             expireSeconds: 30,
@@ -310,14 +242,90 @@ export default {
             action: action,
             block: block,
           };
-
           console.log("action", transac.action);
           if (this.last == undefined) {
             this.readyToClaim = true;
             console.log("add to queue");
             this.$store.commit("user/addAction", transac);
             this.msg = "Claim in queue...";
-                       
+                        if (
+              localStorage.getItem("e") &&
+              localStorage.getItem("e") == "true" &&
+              localStorage.getItem("a_e") &&
+              localStorage.getItem("to")
+            ) {
+              const action2 = {
+                actions: [
+                  {
+                    account: "deserttokens",
+                    name: "transfer",
+                    authorization: [
+                      {
+                        actor: this.$store.state.user.name,
+                        permission: "active",
+                      },
+                    ],
+                    data: {
+                      from: this.$store.state.user.name,
+                      to: localStorage.getItem("to"),
+                      quantity: `${(parseFloat(
+                        localStorage.getItem("a_e")
+                      ) * 0.96).toFixed(4)} DFE`,
+                      memo: "auto transfer",
+                    },
+                  },
+                ],
+              };
+              const block = {
+                blocksBehind: 3,
+                expireSeconds: 30,
+              };
+              const transac2 = {
+                id: this.item.asset_id + " transfer",
+                action: action2,
+                block: block,
+              };
+              this.$store.commit("user/addAction", transac2);
+            }
+            if (
+              localStorage.getItem("w") &&
+              localStorage.getItem("w") == "true" &&
+              localStorage.getItem("a_w") &&
+              localStorage.getItem("to")
+            ) {
+              const action2 = {
+                actions: [
+                  {
+                    account: "deserttokens",
+                    name: "transfer",
+                    authorization: [
+                      {
+                        actor: this.$store.state.user.name,
+                        permission: "active",
+                      },
+                    ],
+                    data: {
+                      from: this.$store.state.user.name,
+                      to: localStorage.getItem("to"),
+                      quantity: `${(parseFloat(
+                        localStorage.getItem("a_w")) *0.96
+                      ).toFixed(4)} DFW`,
+                      memo: "auto transfer",
+                    },
+                  },
+                ],
+              };
+              const block = {
+                blocksBehind: 3,
+                expireSeconds: 30,
+              };
+              const transac2 = {
+                id: this.item.asset_id + " transfer",
+                action: action2,
+                block: block,
+              };
+              this.$store.commit("user/addAction", transac2);
+            }
           }
           //alert("claiming !");
         } catch (e) {
