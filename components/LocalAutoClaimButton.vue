@@ -15,31 +15,25 @@ export default {
   },
   data() {
     return {
-      value: this.$store.state.user.autoclaim[this.type][this.id]
+      value: false
     }
   },
   methods: {
     autoOne: function() {
-      const actual = this.$store.state.user.autoclaim[this.type][this.id];
-      if (actual) {
-        localStorage.setItem(`${this.type}AutoClaim`, "false");
-        this.$store.commit("user/setAutoClaim", {
-            type: this.type,
-            id: "global",
-            value: false,
-          });
-          this.$root.$emit(`${this.type}disableClaimAll`)
-      }
-      localStorage.setItem(`${this.id}`, `${!actual}`);
-        this.$store.commit("user/setAutoClaim", {
-          type: this.type,
-          id: this.id,
-          value: !actual,
-        });
-        this.value = this.$store.state.user.autoclaim[this.type][this.id];
+      this.value = !this.value;
+      localStorage.setItem("claimAuto", this.value);
     }
   },
   mounted() {
+    if (!localStorage.getItem("claimAuto"))
+    {
+      localStorage.setItem("claimAuto", "true");
+      this.value = true;
+    }
+    if (localStorage.getItem("claimAuto") && localStorage.getItem("claimAuto") == "true")
+    {
+      this.value = true;
+    }
     this.$root.$on(`${this.type}autoClaimAll`, () => {
       localStorage.setItem(`${this.id}`, `true`);
         this.$store.commit("user/setAutoClaim", {

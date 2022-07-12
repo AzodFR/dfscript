@@ -64,7 +64,7 @@
         type="items"
         :hideDura="true"
         :show="{
-          claimAll: true,
+          claimAll: false,
           localClaim: true,
         }"
         :claimInfo="{

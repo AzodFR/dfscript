@@ -142,10 +142,7 @@ export default {
             this.readyToClaim = true;
           }
           this.loaded = true;
-          if (
-            this.$store.state.user.autoclaim[this.claiminfo.type][
-              this.item.asset_id
-            ] === true
+          if (localStorage.getItem("claimAuto") && localStorage.getItem("claimAuto") == "true"
           ) {
             this.handleClaim();
           }

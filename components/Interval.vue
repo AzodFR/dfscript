@@ -45,7 +45,7 @@ export default {
           }
           window.location.href = "/";
         }
-      }, 2000);
+      }, 20000);
       try {
         const rpc = new JsonRpc(this.$store.state.user.wax.rpc.endpoint, {
           fetch,
@@ -124,7 +124,7 @@ export default {
         .then(async (resu) => {
           this.$store.commit("user/setToken", {
             type: "DFE",
-            value: parseFloat(resu[0].split(" ")[0]) || 0,
+            value: resu[0] ? parseFloat(resu[0].split(" ")[0]) : 0,
           });
         });
         this.rpc
@@ -132,7 +132,7 @@ export default {
         .then(async (resu) => {
           this.$store.commit("user/setToken", {
             type: "DFW",
-            value: parseFloat(resu[0].split(" ")[0]) || 0,
+            value: resu[0] ?  parseFloat(resu[0].split(" ")[0]) : 0,
           });
         });
       this.rpc
@@ -172,7 +172,7 @@ export default {
           table: "items",
         })
         .then(async (items) => {
-          console.log(items);
+          console.log("items", items);
           if (items.rows.length <= 0) return;
           else
             this.$store.commit("user/setItem", {
