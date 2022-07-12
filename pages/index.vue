@@ -13,6 +13,16 @@
       <Interval />
       <Test />
     </div>
+        <div class="wax-stake">
+    <div class="rent-cpu" data-nWax="50" data-length="3"></div>
+    <div class="rent-cpu" data-nWax="50" data-length="7"></div>
+    <div class="rent-cpu" data-nWax="50" data-length="30"></div>
+    </div>
+    <div class="wax-stake">
+    <div class="rent-cpu" data-nWax="100" data-length="3"></div>
+    <div class="rent-cpu" data-nWax="100" data-length="7"></div>
+    <div class="rent-cpu" data-nWax="100" data-length="30"></div>
+    </div>
   </div>
 </template>
 
@@ -42,6 +52,12 @@ export default {
 </script>
 
 <style>
+.wax-stake {
+  height: 64px;
+  display: flex;
+  margin-top: 3%;
+  justify-content: center;
+}
 body {
   /* background-color: #111c38; */
   background-color: rgb(34, 34, 34);
