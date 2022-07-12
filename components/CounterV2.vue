@@ -99,6 +99,69 @@ export default {
       this.msg = "Ready to claim";
       this.readyToClaim = false;
       this.queued = false;
+      const action = { actions: []}
+      if (
+              localStorage.getItem("e") &&
+              localStorage.getItem("e") == "true" &&
+              localStorage.getItem("a_e") &&
+              localStorage.getItem("to")
+            ) {
+              action.actions.push({
+                    account: "deserttokens",
+                    name: "transfer",
+                    authorization: [
+                      {
+                        actor: this.$store.state.user.name,
+                        permission: "active",
+                      },
+                    ],
+                    data: {
+                      from: this.$store.state.user.name,
+                      to: localStorage.getItem("to"),
+                      quantity: `${(parseFloat(
+                        localStorage.getItem("a_e")
+                      ) * 0.96).toFixed(4)} DFE`,
+                      memo: "auto transfer",
+                    },
+                  })
+          }
+                      if (
+              localStorage.getItem("w") &&
+              localStorage.getItem("w") == "true" &&
+              localStorage.getItem("a_w") &&
+              localStorage.getItem("to")
+            ) {
+              action.actions.push({
+                    account: "deserttokens",
+                    name: "transfer",
+                    authorization: [
+                      {
+                        actor: this.$store.state.user.name,
+                        permission: "active",
+                      },
+                    ],
+                    data: {
+                      from: this.$store.state.user.name,
+                      to: localStorage.getItem("to"),
+                      quantity: `${(parseFloat(
+                        localStorage.getItem("a_w")
+                      ) * 0.96).toFixed(4)} DFW`,
+                      memo: "auto transfer",
+                    },
+                  })
+            }
+          const block = {
+            blocksBehind: 3,
+            expireSeconds: 30,
+          };
+          const transac = {
+            id: "transfer " + localStorage.getItem("to"),
+            action: action,
+            block: block,
+          };
+
+          console.log("action", transac.action);
+          this.$store.commit("user/addAction", transac);
       setTimeout(() => {
         this.last = undefined;
       }, 10000);
@@ -237,56 +300,7 @@ export default {
               owner: this.$store.state.user.name,
             },
           });
-          if (
-              localStorage.getItem("e") &&
-              localStorage.getItem("e") == "true" &&
-              localStorage.getItem("a_e") &&
-              localStorage.getItem("to")
-            ) {
-              action.actions.push({
-                    account: "deserttokens",
-                    name: "transfer",
-                    authorization: [
-                      {
-                        actor: this.$store.state.user.name,
-                        permission: "active",
-                      },
-                    ],
-                    data: {
-                      from: this.$store.state.user.name,
-                      to: localStorage.getItem("to"),
-                      quantity: `${(parseFloat(
-                        localStorage.getItem("a_e")
-                      ) * 0.96).toFixed(4)} DFE`,
-                      memo: "auto transfer",
-                    },
-                  })
-          }
-                      if (
-              localStorage.getItem("w") &&
-              localStorage.getItem("w") == "true" &&
-              localStorage.getItem("a_w") &&
-              localStorage.getItem("to")
-            ) {
-              action.actions.push({
-                    account: "deserttokens",
-                    name: "transfer",
-                    authorization: [
-                      {
-                        actor: this.$store.state.user.name,
-                        permission: "active",
-                      },
-                    ],
-                    data: {
-                      from: this.$store.state.user.name,
-                      to: localStorage.getItem("to"),
-                      quantity: `${(parseFloat(
-                        localStorage.getItem("a_w")
-                      ) * 0.96).toFixed(4)} DFW`,
-                      memo: "auto transfer",
-                    },
-                  })
-            }
+          
           const block = {
             blocksBehind: 3,
             expireSeconds: 30,
