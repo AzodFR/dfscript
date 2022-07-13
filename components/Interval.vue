@@ -14,8 +14,10 @@ export default {
   },
   async mounted() {
     this.rpc = new JsonRpc(this.$store.state.user.wax.rpc.endpoint, { fetch });
+    if (!localStorage.getItem("blockedRPC") || localStorage.getItem("blockedRPC") == "false") { 
     this.checkRPC();
     this.launchCheck();
+  }
     this.fetchStake();
     this.launchIntervalMines();
     this.launchIntervalTokens();
@@ -28,57 +30,49 @@ export default {
       }, 600000);
     },
     checkRPC: async function () {
-      let valid = false;
+     let valid = false;
 
       setTimeout(() => {
         if (valid) {
-          valid = false;
-          console.log("rpc checked");
-        } else {
-          console.log("fuck rpc");
-          localStorage.setItem("rpc", "random");
-          if (
-            !localStorage.getItem("autoLogin") ||
-            localStorage.getItem("autoLogin") == "false"
-          ) {
-            localStorage.setItem("autoLogin", "rpc");
+          valid = false
+          console.log("rpc checked")
+        }
+        else {
+          console.log("fuck rpc")
+          if (!localStorage.getItem("blockedRPC") || localStorage.getItem("blockedRPC") == "false")
+            localStorage.setItem('rpc', 'random');
+          if (localStorage.getItem("blockedRPC") || localStorage.getItem("blockedRPC") == "true")
+            valid = true;
+          if (!localStorage.getItem("autoLogin") || localStorage.getItem("autoLogin") == "false") {
+            localStorage.setItem("autoLogin", "rpc")
           }
-          window.location.href = "/";
+          window.location.href = "/"
         }
       }, 20000);
       try {
-        const rpc = new JsonRpc(this.$store.state.user.wax.rpc.endpoint, {
-          fetch,
-        });
-        this.rpc = rpc;
-        await rpc
-          .get_info()
-          .catch((e) => {
+      const rpc = new JsonRpc(this.$store.state.user.wax.rpc.endpoint, { fetch });
+        await rpc.get_info().catch((e) => {
             valid = false;
-            console.log("fuck rpc");
-            localStorage.setItem("rpc", "random");
-            if (
-              !localStorage.getItem("autoLogin") ||
-              localStorage.getItem("autoLogin") == "false"
-            ) {
-              localStorage.setItem("autoLogin", "rpc");
+            console.log("fuck rpc")
+            if (!localStorage.getItem("blockedRPC") || localStorage.getItem("blockedRPC") == "false")
+            localStorage.setItem('rpc', 'random');
+            if (!localStorage.getItem("autoLogin") || localStorage.getItem("autoLogin") == "false") {
+              localStorage.setItem("autoLogin", "rpc")
             }
-            window.location.href = "/";
-          })
-          .then(() => {
+          window.location.href = "/"
+          }).then(() => {
             valid = true;
           });
-      } catch (e) {
+      }
+      catch (e) {
         valid = false;
-        console.log("fuck rpc");
-        localStorage.setItem("rpc", "random");
-        if (
-          !localStorage.getItem("autoLogin") ||
-          localStorage.getItem("autoLogin") == "false"
-        ) {
-          localStorage.setItem("autoLogin", "rpc");
+        console.log("fuck rpc")
+        if (!localStorage.getItem("blockedRPC") || localStorage.getItem("blockedRPC") == "false")
+            localStorage.setItem('rpc', 'random');
+        if (!localStorage.getItem("autoLogin") || localStorage.getItem("autoLogin") == "false") {
+          localStorage.setItem("autoLogin", "rpc")
         }
-        window.location.href = "/";
+        window.location.href = "/"
       }
     },
     launchFetchStake: function () {
